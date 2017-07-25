@@ -5,6 +5,7 @@ use Libraries.Game.InputMonitor
 use Libraries.Interface.Events.KeyboardEvent
 use Libraries.Game.Graphics.Model
 use Libraries.Game.Graphics.Color
+use Libraries.Compute.Vector3
 
 class Main is Game
     Skybox skybox
@@ -81,7 +82,14 @@ class Main is Game
         
         if im:IsKeyPressed(button:W)
             camera:LookAt(table:GetPosition())
-            //camera:SetDirection(table:GetPosition())
+            Vector3 direction
+            direction = camera:GetDirection():Copy()
+            direction:Scale(25 * seconds)
+            camera:Move(direction)
+            //x = 
+            //y =
+            //z = 
+            //camera:SetYawPitchRoll(x,y,z)
         end
 
         if im:IsKeyPressed(button:X)
