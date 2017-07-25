@@ -18,7 +18,7 @@ class Main is Game
     end
 
     action CreateGame
-        skybox:Load("purplevalley_rt.png", "purplevalley_lf.png", "purplevalley_up.png", "purplevalley_dn.png", "purplevalley_ft.png", "purplevalley_bk.png")
+        skybox:Load("druidcove_rt.png", "druidcove_lf.png", "druidcove_up.png", "druidcove_dn.png", "druidcove_ft.png", "druidcove_bk.png")
         SetSkybox(skybox)
         camera = GetCamera3D()
         camera:SetPosition(0, 0, 0)
