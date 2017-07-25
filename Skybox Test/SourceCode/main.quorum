@@ -1,0 +1,58 @@
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Skybox
+use Libraries.Game.Graphics.Camera
+use Libraries.Game.InputMonitor
+use Libraries.Interface.Events.KeyboardEvent
+
+class Main is Game
+    Skybox skybox
+    Camera camera = undefined
+    InputMonitor im
+    KeyboardEvent button
+    number x = 0
+    number y = 0
+    number z = 0
+
+    action Main
+        StartGame()
+    end
+
+    action CreateGame
+        skybox:Load("purplevalley_rt.png", "purplevalley_lf.png", "purplevalley_up.png", "purplevalley_dn.png", "purplevalley_ft.png", "purplevalley_bk.png")
+        SetSkybox(skybox)
+        camera = GetCamera3D()
+        camera:SetPosition(0, 0, 0)
+        camera:LookAt(0, 0, 1)
+    end
+
+
+    action Update(number seconds)
+        if im:IsKeyPressed(button:RIGHT)
+            x = x + 25 * seconds
+            camera:SetYawPitchRoll(x,y,z)
+        
+        
+        elseif im:IsKeyPressed(button:LEFT)
+            x = x - 25 * seconds
+            camera:SetYawPitchRoll(x,y,z)
+        
+        elseif im:IsKeyPressed(button:UP)
+            y = y + 25 * seconds
+            camera:SetYawPitchRoll(x,y,z)
+            if y > 90
+                y = 90
+            end
+
+        elseif im:IsKeyPressed(button:DOWN)
+            y = y - 25 * seconds
+            camera:SetYawPitchRoll(x,y,z)
+            if y < -90
+                y = -90
+            end
+        end
+        
+        if im:IsKeyPressed(button:X)
+            Exit()
+        end
+    end
+end
