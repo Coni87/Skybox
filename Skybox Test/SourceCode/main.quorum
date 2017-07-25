@@ -3,6 +3,8 @@ use Libraries.Game.Graphics.Skybox
 use Libraries.Game.Graphics.Camera
 use Libraries.Game.InputMonitor
 use Libraries.Interface.Events.KeyboardEvent
+use Libraries.Game.Graphics.Model
+use Libraries.Game.Graphics.Color
 
 class Main is Game
     Skybox skybox
@@ -12,6 +14,14 @@ class Main is Game
     number x = 0
     number y = 0
     number z = 0
+
+    Model table
+    Model leg1
+    Model leg2
+    Model leg3
+    Model leg4
+    Color wood
+        
 
     action Main
         StartGame()
@@ -23,6 +33,24 @@ class Main is Game
         camera = GetCamera3D()
         camera:SetPosition(0, 0, 0)
         camera:LookAt(0, 0, 1)
+        
+        wood:SetColor(0.55, 0.40, 0.30, 1)
+        
+        table:LoadBox(15, 1, 15, wood)
+        leg1:LoadCylinder(1, 15, 1, wood)
+        leg2:LoadCylinder(1, 15, 1, wood)
+        leg3:LoadCylinder(1, 15, 1, wood)
+        leg4:LoadCylinder(1, 15, 1, wood)
+        leg1:SetPosition(7, -7.5, 7)
+        leg2:SetPosition(-7, -7.5, 7)
+        leg3:SetPosition(7, -7.5, -7)
+        leg4:SetPosition(-7, -7.5, -7)
+        table:Add(leg1)
+        table:Add(leg2)
+        table:Add(leg3)
+        table:Add(leg4)
+        table:SetPosition(250,-10,150)
+        Add(table)
     end
 
 
@@ -51,6 +79,11 @@ class Main is Game
             end
         end
         
+        if im:IsKeyPressed(button:W)
+            camera:LookAt(table:GetPosition())
+            //camera:SetDirection(table:GetPosition())
+        end
+
         if im:IsKeyPressed(button:X)
             Exit()
         end
