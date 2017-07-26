@@ -29,7 +29,7 @@ class Main is Game
     end
 
     action CreateGame
-        skybox:Load("druidcove_rt.png", "druidcove_lf.png", "druidcove_up.png", "druidcove_dn.png", "druidcove_ft.png", "druidcove_bk.png")
+        skybox:Load("iceflow_rt.png", "iceflow_lf.png", "iceflow_up.png", "iceflow_dn.png", "iceflow_ft.png", "iceflow_bk.png")
         SetSkybox(skybox)
         camera = GetCamera3D()
         camera:SetPosition(0, 0, 0)
@@ -75,8 +75,8 @@ class Main is Game
         elseif im:IsKeyPressed(button:DOWN)
             y = y - 25 * seconds
             camera:SetYawPitchRoll(x,y,z)
-            if y < -90
-                y = -90
+            if y < 0
+                y = 0
             end
         end
         
@@ -87,9 +87,10 @@ class Main is Game
                 direction = camera:GetDirection():Copy()
                 direction:Scale(25 * seconds)
                 camera:Move(direction)
-                x = x - x + 45 
-                y = y - y 
-                z = z - z
+                output x
+                x = 47
+                y = 0
+                z= 0
                 camera:SetYawPitchRoll(x,y,z)
             end
         end
