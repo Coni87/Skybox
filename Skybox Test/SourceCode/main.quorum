@@ -82,14 +82,16 @@ class Main is Game
         
         if im:IsKeyPressed(button:W)
             camera:LookAt(table:GetPosition())
-            Vector3 direction
-            direction = camera:GetDirection():Copy()
-            direction:Scale(25 * seconds)
-            camera:Move(direction)
-            //x = 
-            //y =
-            //z = 
-            //camera:SetYawPitchRoll(x,y,z)
+            if im:IsKeyPressed(button:R)
+                Vector3 direction
+                direction = camera:GetDirection():Copy()
+                direction:Scale(25 * seconds)
+                camera:Move(direction)
+                x = x - x + 45 
+                y = y - y 
+                z = z - z
+                camera:SetYawPitchRoll(x,y,z)
+            end
         end
 
         if im:IsKeyPressed(button:X)
