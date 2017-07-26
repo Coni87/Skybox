@@ -101,15 +101,17 @@ class Main is Game
         end
         
         if im:IsKeyPressed(button:W)
-            camera:LookAt(table:GetGlobalPosition())
+            camera:LookAt(table:GetGlobalPosition())  
+                
             if im:IsKeyPressed(button:R)
                 direction = camera:GetDirection():Copy()
                 direction:Scale(25 * seconds)
                 camera:Move(direction)
-                x = 
-                y = 0
-                z= 0
-                camera:SetYawPitchRoll(x,y,z)        
+                output x
+                //x = 52
+                //y = 0
+                //z= 0
+                //camera:SetYawPitchRoll(x,y,z)
             end
 
         end
@@ -140,7 +142,7 @@ class Main is Game
             bob = randomZ:RandomInteger(200)
             number newX = cast(number, joe)
             number newZ = cast(number, bob)
-
+           
             table:Hide()
             table:SetPosition(newX, table:GetY(), newZ)
             table:Show()
