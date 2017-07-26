@@ -87,9 +87,9 @@ class Main is Game
                 direction = camera:GetDirection():Copy()
                 direction:Scale(25 * seconds)
                 camera:Move(direction)
-                x = x - x + 45 
-                y = y - y 
-                z = z - z
+                x = 45 
+                y = 0 
+                z = 0
                 camera:SetYawPitchRoll(x,y,z)
             end
         end
