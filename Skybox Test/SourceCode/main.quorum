@@ -6,6 +6,10 @@ use Libraries.Interface.Events.KeyboardEvent
 use Libraries.Game.Graphics.Model
 use Libraries.Game.Graphics.Color
 use Libraries.Compute.Vector3
+use Libraries.Game.Graphics.DirectionalLight
+use Libraries.Game.Graphics.Label
+use Libraries.Game.Graphics.Drawable
+use Libraries.Compute.Random
 
 class Main is Game
     Skybox skybox
@@ -22,7 +26,14 @@ class Main is Game
     Model leg3
     Model leg4
     Color wood
+    Color color
+
+    Model apple
+    DirectionalLight light
         
+    Vector3 direction
+    
+    appleGrab = false
 
     action Main
         StartGame()
@@ -38,20 +49,28 @@ class Main is Game
         wood:SetColor(0.55, 0.40, 0.30, 1)
         
         table:LoadBox(15, 1, 15, wood)
-        leg1:LoadCylinder(1, 15, 1, wood)
-        leg2:LoadCylinder(1, 15, 1, wood)
-        leg3:LoadCylinder(1, 15, 1, wood)
-        leg4:LoadCylinder(1, 15, 1, wood)
-        leg1:SetPosition(7, -7.5, 7)
-        leg2:SetPosition(-7, -7.5, 7)
-        leg3:SetPosition(7, -7.5, -7)
-        leg4:SetPosition(-7, -7.5, -7)
+        leg1:LoadCylinder(1, 10, 1, wood)
+        leg2:LoadCylinder(1, 10, 1, wood)
+        leg3:LoadCylinder(1, 10, 1, wood)
+        leg4:LoadCylinder(1, 10, 1, wood)
+        leg1:SetPosition(7, -5.5, 7)
+        leg2:SetPosition(-7, -5.5, 7)
+        leg3:SetPosition(7, -5.5, -7)
+        leg4:SetPosition(-7, -5.5, -7)
         table:Add(leg1)
         table:Add(leg2)
         table:Add(leg3)
         table:Add(leg4)
         table:SetPosition(250,-10,150)
         Add(table)
+
+        apple:LoadSphere(3,3,3,color:Red())
+        apple:SetPosition(5,2,0)
+        table:Add(apple)
+        
+        light:SetColor(0.75,0.75,1,1)
+        light:SetDirection(250,200,150)
+        Add(light)
     end
 
 
@@ -83,20 +102,47 @@ class Main is Game
         if im:IsKeyPressed(button:W)
             camera:LookAt(table:GetPosition())
             if im:IsKeyPressed(button:R)
-                Vector3 direction
+
                 direction = camera:GetDirection():Copy()
                 direction:Scale(25 * seconds)
                 camera:Move(direction)
-                output x
-                x = 47
+                x = 47.5
                 y = 0
                 z= 0
-                camera:SetYawPitchRoll(x,y,z)
+                camera:SetYawPitchRoll(x,y,z)        
             end
+
         end
 
         if im:IsKeyPressed(button:X)
             Exit()
+        end
+        
+        Vector3 person = camera:GetPosition():Copy()
+        if person:Distance(apple:GetGlobalPosition()) < 25 and appleGrab = false
+            apple:Hide()
+            appleGrab = true
+            Label inventory
+            inventory:SetText("1 apple")            
+            inventory:SetColor(color:White())
+            Drawable ccbox
+            ccbox:LoadFilledRectangle(75, 25, color:Black())
+            ccbox:SetPosition(table:GetX(),(table:GetY()+500))
+            ccbox:Add(inventory)
+            Add (ccbox)
+        end
+        if person:Distance(table:GetGlobalPosition()) < 10
+            Random randomX
+            Random randomZ
+            joe = randomX:RandomInteger(180)
+            bob = randomZ:RandomInteger(200)
+            number newX = cast(number, joe)
+            number newZ = cast(number, bob)
+
+            table:Hide()
+            table:SetPosition(newX, table:GetY(), newZ)
+            table:Show()
+            apple:Show()
         end
     end
 end
