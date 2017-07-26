@@ -35,6 +35,7 @@ class Main is Game
     
     appleGrab = false
     integer numberOfApples = 0
+    inventoryFull = false
 
     action Main
         StartGame()
@@ -78,12 +79,21 @@ class Main is Game
     action Update(number seconds)
         if im:IsKeyPressed(button:RIGHT)
             x = x + 25 * seconds
+            if x > 360
+                x = 360
+            end
             camera:SetYawPitchRoll(x,y,z)
-        
+            table:Show()
+            apple:Show()
         
         elseif im:IsKeyPressed(button:LEFT)
             x = x - 25 * seconds
+            if x < -360
+                x = -360
+            end
             camera:SetYawPitchRoll(x,y,z)
+            table:Show()
+            apple:Show()
         
         elseif im:IsKeyPressed(button:UP)
             y = y + 25 * seconds
@@ -91,6 +101,8 @@ class Main is Game
             if y > 90
                 y = 90
             end
+            table:Show()
+            apple:Show()
 
         elseif im:IsKeyPressed(button:DOWN)
             y = y - 25 * seconds
@@ -98,26 +110,33 @@ class Main is Game
             if y < 0
                 y = 0
             end
+            table:Show()
+            apple:Show()
         end
         
         if im:IsKeyPressed(button:W)
             camera:LookAt(table:GetGlobalPosition())  
-                
             if im:IsKeyPressed(button:R)
                 direction = camera:GetDirection():Copy()
                 direction:Scale(25 * seconds)
                 camera:Move(direction)
-                output x
-                //x = 52
-                //y = 0
-                //z= 0
-                //camera:SetYawPitchRoll(x,y,z)
-            end
 
+                x = x
+                y = 0
+                z = 0
+                camera:SetYawPitchRoll(x,y,z)
+            end
         end
 
         if im:IsKeyPressed(button:X)
             Exit()
+        end
+
+        if im:IsKeyPressed(button:A)
+            x = 0
+            y = 0
+            z = 0
+            camera:SetYawPitchRoll(x,y,z)
         end
         
         Vector3 person = camera:GetPosition():Copy()
@@ -132,22 +151,29 @@ class Main is Game
             ccbox:LoadFilledRectangle(75, 25, color:Black())
             ccbox:SetPosition(200,500)
             ccbox:Add(inventory)
-            Add (ccbox)
+            Add (ccbox)      
         end
 
-        if person:Distance(table:GetGlobalPosition()) < 10
+        if person:Distance(table:GetGlobalPosition()) < 20
             Random randomX
             Random randomZ
-            joe = randomX:RandomInteger(180)
+            joe = randomX:RandomIntegerBetween(0, 360)
             bob = randomZ:RandomInteger(200)
             number newX = cast(number, joe)
             number newZ = cast(number, bob)
-           
             table:Hide()
+            camera:LookAt(0,0,0)
             table:SetPosition(newX, table:GetY(), newZ)
-            table:Show()
-            apple:Show()
             appleGrab = false
+        end
+
+        if numberOfApples = 5 and inventoryFull = false
+            inventoryFull = true
+            Label full
+            full:SetText("Your Inventory is Full!")
+            full:SetColor(color:Red())
+            full:SetSize(36)
+            full:SetPosition(300, 350)
         end
     end
 end
