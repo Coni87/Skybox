@@ -34,6 +34,7 @@ class Main is Game
     Vector3 direction
     
     appleGrab = false
+    integer numberOfApples = 0
 
     action Main
         StartGame()
@@ -69,7 +70,7 @@ class Main is Game
         table:Add(apple)
         
         light:SetColor(0.75,0.75,1,1)
-        light:SetDirection(250,200,150)
+        light:SetDirection(250,100,150)
         Add(light)
     end
 
@@ -100,13 +101,12 @@ class Main is Game
         end
         
         if im:IsKeyPressed(button:W)
-            camera:LookAt(table:GetPosition())
+            camera:LookAt(table:GetGlobalPosition())
             if im:IsKeyPressed(button:R)
-
                 direction = camera:GetDirection():Copy()
                 direction:Scale(25 * seconds)
                 camera:Move(direction)
-                x = 47.5
+                x = 
                 y = 0
                 z= 0
                 camera:SetYawPitchRoll(x,y,z)        
@@ -122,15 +122,17 @@ class Main is Game
         if person:Distance(apple:GetGlobalPosition()) < 25 and appleGrab = false
             apple:Hide()
             appleGrab = true
+            numberOfApples = numberOfApples + 1
             Label inventory
-            inventory:SetText("1 apple")            
+            inventory:SetText(numberOfApples + " apples")            
             inventory:SetColor(color:White())
             Drawable ccbox
             ccbox:LoadFilledRectangle(75, 25, color:Black())
-            ccbox:SetPosition(table:GetX(),(table:GetY()+500))
+            ccbox:SetPosition(200,500)
             ccbox:Add(inventory)
             Add (ccbox)
         end
+
         if person:Distance(table:GetGlobalPosition()) < 10
             Random randomX
             Random randomZ
@@ -143,6 +145,7 @@ class Main is Game
             table:SetPosition(newX, table:GetY(), newZ)
             table:Show()
             apple:Show()
+            appleGrab = false
         end
     end
 end
