@@ -29,14 +29,22 @@ class Main is Game
     Color color
 
     Model apple
+    Model orange
     DirectionalLight light
         
     Vector3 direction
     
     appleGrab = false
+    orangeGrab = false
     integer numberOfApples = 0
+    integer numberOfOranges = 0
     inventoryFull = false
-
+    integer inventoryCount = 0
+    
+    Label inventory
+    Label choice            
+        
+        
     action Main
         StartGame()
     end
@@ -65,14 +73,39 @@ class Main is Game
         table:Add(leg4)
         table:SetPosition(250,-10,150)
         Add(table)
-
-        apple:LoadSphere(3,3,3,color:Red())
+        
+        Color appleColor
+        appleColor:SetColor(0.290, 0.71, 0.30, 1)
+        apple:LoadSphere(3,3,3, appleColor)
         apple:SetPosition(5,2,0)
         table:Add(apple)
+
+        Color orangeColor
+        orangeColor:SetColor(1, 0.59, 0, 1)
+        orange:LoadSphere (3,3,3,orangeColor)
+        orange:SetPosition (-5, 2, 1)
+        table:Add(orange)
         
         light:SetColor(0.75,0.75,1,1)
-        light:SetDirection(250,100,150)
+        light:SetDirection(table:GetX()+250,table:GetY()+100,table:GetZ()+150)
         Add(light)
+
+        choice:SetText("Press A to pick up the apple, press O to pick up the Orange.")
+        choice:SetPosition(table:GetX()- 150, table:GetY()+ 200)
+        choice:SetSize(25)
+        choice:SetColor(color:White())
+        Add(choice)
+        choice:Hide()
+
+
+        inventory:SetText(numberOfApples + " apples" + " " + numberOfOranges + " oranges")
+        inventory:SetColor(color:White())
+        Drawable ccbox
+        ccbox:LoadFilledRectangle(150, 25, color:Black())
+        ccbox:SetPosition(200,500)
+        ccbox:Add(inventory)
+        Add (ccbox)
+
     end
 
 
@@ -85,7 +118,8 @@ class Main is Game
             camera:SetYawPitchRoll(x,y,z)
             table:Show()
             apple:Show()
-        
+            orange:Show()
+            
         elseif im:IsKeyPressed(button:LEFT)
             x = x - 25 * seconds
             if x < -360
@@ -94,8 +128,9 @@ class Main is Game
             camera:SetYawPitchRoll(x,y,z)
             table:Show()
             apple:Show()
+            orange:Show()
         
-        elseif im:IsKeyPressed(button:UP)
+        elseif im:IsKeyPressed(button:R)
             y = y + 25 * seconds
             camera:SetYawPitchRoll(x,y,z)
             if y > 90
@@ -103,8 +138,9 @@ class Main is Game
             end
             table:Show()
             apple:Show()
+            orange:Show()
 
-        elseif im:IsKeyPressed(button:DOWN)
+        elseif im:IsKeyPressed(button:C)
             y = y - 25 * seconds
             camera:SetYawPitchRoll(x,y,z)
             if y < 0
@@ -112,11 +148,12 @@ class Main is Game
             end
             table:Show()
             apple:Show()
+            orange:Show()
         end
         
         if im:IsKeyPressed(button:W)
             camera:LookAt(table:GetGlobalPosition())  
-            if im:IsKeyPressed(button:R)
+            if im:IsKeyPressed(button:UP)
                 direction = camera:GetDirection():Copy()
                 direction:Scale(25 * seconds)
                 camera:Move(direction)
@@ -132,26 +169,32 @@ class Main is Game
             Exit()
         end
 
-        if im:IsKeyPressed(button:A)
+        if im:IsKeyPressed(button:S)
             x = 0
             y = 0
             z = 0
             camera:SetYawPitchRoll(x,y,z)
         end
         
-        Vector3 person = camera:GetPosition():Copy()
-        if person:Distance(apple:GetGlobalPosition()) < 25 and appleGrab = false
-            apple:Hide()
-            appleGrab = true
-            numberOfApples = numberOfApples + 1
-            Label inventory
-            inventory:SetText(numberOfApples + " apples")            
-            inventory:SetColor(color:White())
-            Drawable ccbox
-            ccbox:LoadFilledRectangle(75, 25, color:Black())
-            ccbox:SetPosition(200,500)
-            ccbox:Add(inventory)
-            Add (ccbox)      
+        Vector3 person = camera:GetPosition():Copy()      
+        inventoryCount = numberOfApples + numberOfOranges
+
+        if person:Distance(apple:GetGlobalPosition()) < 50 and inventoryFull = false 
+            choice:Show()
+            if im:IsKeyPressed(button:A)and appleGrab = false 
+                apple:Hide()
+                appleGrab = true
+                numberOfApples = numberOfApples + 1 
+                inventory:SetText(numberOfApples + " apples" + " " + numberOfOranges + " oranges")
+            end        
+
+            if im:IsKeyPressed(button:O) and orangeGrab = false
+                orange:Hide()
+                orangeGrab = true
+                numberOfOranges = numberOfOranges + 1
+                inventory:SetText(numberOfApples + " apples" + " " + numberOfOranges + " oranges")
+            end
+
         end
 
         if person:Distance(table:GetGlobalPosition()) < 20
@@ -162,18 +205,22 @@ class Main is Game
             number newX = cast(number, joe)
             number newZ = cast(number, bob)
             table:Hide()
-            camera:LookAt(0,0,0)
             table:SetPosition(newX, table:GetY(), newZ)
+            light:SetDirection(table:GetX()+250,table:GetY()+100,table:GetZ()+150)
             appleGrab = false
+            orangeGrab = false
+            choice:Hide()
         end
 
-        if numberOfApples = 5 and inventoryFull = false
+        if inventoryCount = 4 and inventoryFull = false
             inventoryFull = true
             Label full
             full:SetText("Your Inventory is Full!")
             full:SetColor(color:Red())
             full:SetSize(36)
             full:SetPosition(300, 350)
+            Add (full)
+            Remove(table)
         end
     end
 end
