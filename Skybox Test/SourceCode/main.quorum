@@ -56,7 +56,7 @@ class Main is Game
         camera:SetPosition(0, 0, 0)
         camera:LookAt(0, 0, 1)
         
-        wood:SetColor(0.55, 0.40, 0.30, 1)
+        wood:SetColor(0.353, 0.078, 0.043, 1)
         
         table:LoadBox(15, 1, 15, wood)
         leg1:LoadCylinder(1, 10, 1, wood)
@@ -206,6 +206,9 @@ class Main is Game
             number newZ = cast(number, bob)
             table:Hide()
             table:SetPosition(newX, table:GetY(), newZ)
+           // Vector3 turnPoint
+           // turnPoint:Set(0,7.5,0)
+           // table:Rotate(turnPoint,90)
             light:SetDirection(table:GetX()+250,table:GetY()+100,table:GetZ()+150)
             appleGrab = false
             orangeGrab = false
