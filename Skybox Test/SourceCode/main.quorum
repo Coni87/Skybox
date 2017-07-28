@@ -46,6 +46,7 @@ class Main is Game
         
         
     action Main
+        UseDesktopResolution()
         StartGame()
     end
 
@@ -206,9 +207,9 @@ class Main is Game
             number newZ = cast(number, bob)
             table:Hide()
             table:SetPosition(newX, table:GetY(), newZ)
-            Vector3 turnPoint
-            turnPoint:Set(0,7.5,0)
-            table:Rotate(turnPoint,90)
+            //Vector3 turnPoint
+            //turnPoint:Set(0,7.5,0)
+            //table:Rotate(turnPoint,90)
             light:SetDirection(table:GetX()+250,table:GetY()+100,table:GetZ()+150)
             appleGrab = false
             orangeGrab = false
