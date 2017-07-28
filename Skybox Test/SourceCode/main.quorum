@@ -91,6 +91,16 @@ class Main is Game
         light:SetDirection(table:GetX()+250,table:GetY()+100,table:GetZ()+150)
         Add(light)
 
+        Model tree
+        tree:LoadCylinder(20,2000,20, wood)
+        tree:SetPosition(250,-20,100)
+        Add (tree)
+
+        Model tree2
+        tree2:LoadCylinder(20,2000,20, wood)
+        tree2:SetPosition(50, -20, 50)
+        Add (tree2)
+
         choice:SetText("Press A to pick up the apple, press O to pick up the Orange.")
         choice:SetPosition(table:GetX()- 150, table:GetY()+ 200)
         choice:SetSize(25)
@@ -198,7 +208,7 @@ class Main is Game
 
         end
 
-        if person:Distance(table:GetGlobalPosition()) < 20
+        if person:Distance(table:GetGlobalPosition()) < 20 or (appleGrab = true and orangeGrab = true)
             Random randomX
             Random randomZ
             joe = randomX:RandomIntegerBetween(0, 360)
@@ -207,10 +217,9 @@ class Main is Game
             number newZ = cast(number, bob)
             table:Hide()
             table:SetPosition(newX, table:GetY(), newZ)
-            //Vector3 turnPoint
-            //turnPoint:Set(0,7.5,0)
-            //table:Rotate(turnPoint,90)
-            light:SetDirection(table:GetX()+250,table:GetY()+100,table:GetZ()+150)
+            Vector3 tableVector = table:GetPosition():Copy()
+            Vector3 lightDirection = tableVector:Subtract(person)
+            light:SetDirection(lightDirection)
             appleGrab = false
             orangeGrab = false
             choice:Hide()
