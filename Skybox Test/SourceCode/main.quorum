@@ -91,15 +91,7 @@ class Main is Game
         light:SetDirection(table:GetX()+250,table:GetY()+100,table:GetZ()+150)
         Add(light)
 
-        Model tree
-        tree:LoadCylinder(20,2000,20, wood)
-        tree:SetPosition(250,-20,100)
-        Add (tree)
-
-        Model tree2
-        tree2:LoadCylinder(20,2000,20, wood)
-        tree2:SetPosition(50, -20, 50)
-        Add (tree2)
+        Trees ()
 
         choice:SetText("Press A to pick up the apple, press O to pick up the Orange.")
         choice:SetPosition(table:GetX()- 150, table:GetY()+ 200)
@@ -235,5 +227,36 @@ class Main is Game
             Add (full)
             Remove(table)
         end
+    end
+    action Trees
+        Model tree
+        tree:LoadCylinder(20,2000,20, wood)
+        tree:SetPosition(250,-20,100)
+        Add (tree)
+
+        Model tree2
+        tree2:LoadCylinder(20,2000,20, wood)
+        tree2:SetPosition(50, -20, 50)
+        Add (tree2)
+
+        Model tree3
+        tree3:LoadCylinder(20,2000,20, wood)
+        tree3:SetPosition(-50,-20,25)
+        Add (tree3)
+
+        Model tree4
+        tree4:LoadCylinder(20,2000,20, wood)
+        tree4:SetPosition(20,-20,500)
+        Add (tree4)
+
+        Model tree5
+        tree5:LoadCylinder(20,2000,20, wood)
+        tree5:SetPosition(-100,-20,60)
+        Add (tree5)
+
+        Model tree6
+        tree6:LoadCylinder(20,2000,20, wood)
+        tree6:SetPosition(-200, -20, 10)
+        Add (tree6)
     end
 end
